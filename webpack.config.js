@@ -1,45 +1,40 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
 module.exports = {
-  entry: './client/index.js',
+  entry: ['./client/index.js'],
   output: {
-    path: path.join(__dirname, '/dist'),
-    filename: 'bundle.js'
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
+  },
+  mode: 'development',
+  plugins: [new HtmlWebpackPlugin({ template: './client/index.html' })],
+  devServer: {
+    host: 'localhost',
+    port: 8080,
+    static: {
+      // match the output path
+      directory: path.resolve(__dirname, 'dist'),
+      // match the output 'publicPath'
+      publicPath: '/',
+    },
+    proxy: { '/': 'http://localhost:3000', secure: false },
   },
   module: {
     rules: [
       {
-        test: /.(js|jsx)$/,
+        test: /\.(js|jsx)/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: [
-              '@babel/preset-env',
-              '@babel/preset-react'
-          ]
-          }
-        },
+        loader: 'babel-loader',
       },
       {
-        test: /.(css|scss)$/,
+        test: /\.(css|scss)$/,
         exclude: /node_modules/,
         use: ['style-loader', 'css-loader'],
-      }
+      },
     ],
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './client/index.html'
-    })
-  ],
-  devServer: {
-    static: path.join(__dirname, 'dist'),
-    compress: true,
-    port: 8080,
-    proxy: {
-      '/': 'http://localhost:3000',
-    }
-  }
+  resolve: {
+    // Enable importing JS / JSX files without specifying their extension
+    extensions: ['.js', '.jsx'],
+  },
 };
