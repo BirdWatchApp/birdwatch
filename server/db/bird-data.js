@@ -42,7 +42,7 @@ const insertBirdgendaQuery = `
       const { speciesCode, comName, locName, obsDt, howMany, lat, lng } = bird;
 
       // Insert data into 'birds' table
-      await client.query(insertBirdQuery, [speciesCode, comName, locName, new Date(obsDt), howMany, lat, lng]);
+      await client.query(insertBirdQuery, [speciesCode, comName, locName, obsDt, howMany, lat, lng]);
 
       // Insert data into 'birdgendas' table
       await client.query(insertBirdgendaQuery, [speciesCode]);
