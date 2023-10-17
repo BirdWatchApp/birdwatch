@@ -5,12 +5,19 @@ require('dotenv').config();
 const app = express();
 app.use(express.json());
 
+// import routes
+const userRouter = require('./routers/userRouter')
+
 // Static files
 app.use('/styles.css', express.static(path.resolve(__dirname, '..', 'dist', 'client/styles/styles.css')));
 
+//Home Page:
 app.get('/', (req, res) => {
     res.sendFile(path.resolve(__dirname, '..', 'client/index.html'))
 });
+
+// Routers:
+app.use('/login', userRouter);
 
 // Default error
 app.use((err,req,res,next) =>{
