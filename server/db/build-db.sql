@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS birds (
 CREATE TABLE IF NOT EXISTS birdgendas (
   _id serial NOT NULL PRIMARY KEY,
   species varchar,
-  FOREIGN KEY (species) REFERENCES birds(speciesCode)
+  FOREIGN KEY (species) REFERENCES birds(speciesCode),
+  birdgenda varchar
 );
 
 

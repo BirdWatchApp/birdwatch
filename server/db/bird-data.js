@@ -29,7 +29,7 @@ let client;
 (async () => {
   try {
     // Fetch data from the eBird API
-    const response = await axios.get('https://api.ebird.org/v2/data/obs/KZ/recent', {
+    const response = await axios.get('https://api.ebird.org/v2/data/obs/CA/recent', {
       headers: {
         'X-eBirdApiToken': apiKey,
       },
