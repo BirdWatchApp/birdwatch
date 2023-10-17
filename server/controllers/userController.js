@@ -1,10 +1,10 @@
 const userController = {};
 const sqlActions = require("../db/sqlActions");
 
-userController.login = (req, res, next) => {
+userController.login = async (req, res, next) => {
   const { username, password } = req.body;
   try {
-    res.locals.userID = sqlActions.checkPassword(username, password);
+    res.locals.userID = await sqlActions.checkPassword(username, password);
     next();
   } catch {
     next({
@@ -16,10 +16,10 @@ userController.login = (req, res, next) => {
     });
   }
 };
-userController.signUp = (req, res, next) => {
+userController.signUp = async (req, res, next) => {
   const { username, password } = req.body;
   try {
-    res.locals.userID = sqlActions.addUser(username, password);
+    res.locals.userID = await sqlActions.addUser(username, password);
     next();
   } catch {
     next({

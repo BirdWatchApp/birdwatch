@@ -6,7 +6,9 @@ const app = express();
 app.use(express.json());
 
 // import routes
-const userRouter = require('./routers/userRouter')
+const userRouter = require('./routers/userRouter');
+const birdRouter = require('./routers/birdRouter');
+const birdgendaRouter = require('./routers/birdgendaRouter');
 
 // Static files
 app.use('/styles.css', express.static(path.resolve(__dirname, '..', 'dist', 'client/styles/styles.css')));
@@ -18,6 +20,8 @@ app.get('/', (req, res) => {
 
 // Routers:
 app.use('/login', userRouter);
+app.use('/birds', birdRouter);
+app.use('/birdgenda', birdgendaRouter);
 
 // Default error
 app.use((err,req,res,next) =>{
