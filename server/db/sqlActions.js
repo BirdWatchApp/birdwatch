@@ -71,7 +71,7 @@ sqlActions.addBirdgenda = async (params) => {
 
 sqlActions.editBirdgenda = async (params) => {
     const {id, content} = params;
-    const query = `UPDATE birdgendas SET birdgenda = $1 WHERE _id = $2 RETURNING *`;
+    const query = `UPDATE birdgendas SET birdgenda = $1 WHERE _id = $2`;
     const result = await pool.query(query, [content, id]);
     console.log(result)
     return result.rows[0];
