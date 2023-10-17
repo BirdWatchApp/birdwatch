@@ -5,6 +5,7 @@ const axios = require('axios');
 const dbURI = process.env.PG_URI;
 const apiKey = process.env.API_KEY;
 
+
 const pool = new Pool({
   connectionString: dbURI,
 });
@@ -24,12 +25,13 @@ const insertBirdgendaQuery = `
   RETURNING _id
 `;
 
+const regionCode = 'FI'
 let client;
 
 (async () => {
   try {
     // Fetch data from the eBird API
-    const response = await axios.get('https://api.ebird.org/v2/data/obs/CA/recent', {
+    const response = await axios.get(`https://api.ebird.org/v2/data/obs/${regionCode}/recent`, {
       headers: {
         'X-eBirdApiToken': apiKey,
       },
