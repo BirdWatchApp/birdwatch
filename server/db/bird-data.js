@@ -1,12 +1,12 @@
+require('dotenv').config();
 const { Pool } = require('pg');
 const axios = require('axios');
 
-// TODO: Move to .env
-const { PG_URI } = require('./pg-model');
-const apiToken = '8emk7a9ljpc4';
+const dbURI = process.env.PG_URI;
+const apiKey = process.env.API_KEY;
 
 const pool = new Pool({
-  connectionString: PG_URI,
+  connectionString: dbURI,
 });
 
 // INSERT Data
@@ -31,7 +31,7 @@ let client;
     // Fetch data from the eBird API
     const response = await axios.get('https://api.ebird.org/v2/data/obs/KZ/recent', {
       headers: {
-        'X-eBirdApiToken': apiToken,
+        'X-eBirdApiToken': apiKey,
       },
     });
 
