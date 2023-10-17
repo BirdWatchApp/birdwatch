@@ -17,17 +17,27 @@ module.exports = {
       // match the output 'publicPath'
       publicPath: '/',
     },
-    proxy: { '/': 'http://localhost:3000', secure: false },
+    proxy: { 
+    '/birds': {target: 'http://localhost:3000/', secure: false },
+    '/login': {target: 'http://localhost:3000/', secure: false },
+     '/birdgenda': {target: 'http://localhost:3000/', secure: false },
+    }
   },
   module: {
     rules: [
       {
-        test: /\.(js|jsx)/,
+        test: /.(js|jsx)$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
+        options: {
+          presets: [
+            '@babel/preset-env',
+            '@babel/preset-react'
+        ]
+        }
       },
       {
-        test: /\.(css|scss)$/,
+        test: /.(css|scss)$/,
         exclude: /node_modules/,
         use: ['style-loader', 'css-loader'],
       },
