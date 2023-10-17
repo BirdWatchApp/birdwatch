@@ -1,8 +1,10 @@
 const { Pool } = require('pg');
 const axios = require('axios');
 const { PG_URI } = require('./pg-model');
+const { execSync } = require('child_process');
 
-const apiToken = execSync('echo ${{ secrets.API_KEY }}').toString().trim();
+// const apiToken = execSync('echo ${{ secrets.API_KEY }}').toString().trim();
+const apiToken = '8emk7a9ljpc4';
 
 const pool = new Pool({
   connectionString: PG_URI,
@@ -17,11 +19,13 @@ const insertBirdQuery = `
 `;
 
 const insertBirdgendaQuery = `
-  INSERT INTO birdgendas (speciesCode)
+  INSERT INTO birdgendas (species)
   VALUES ($1)
   ON CONFLICT DO NOTHING
   RETURNING _id
 `;
+
+let client;
 
 (async () => {
   try {
@@ -35,7 +39,7 @@ const insertBirdgendaQuery = `
     const birdData = response.data;
 
     // Start a PostgreSQL transaction
-    const client = await pool.connect();
+    client = await pool.connect();
     await client.query('BEGIN');
 
     for (const bird of birdData) {
