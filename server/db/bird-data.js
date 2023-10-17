@@ -1,11 +1,12 @@
+require('dotenv').config();
 const { Pool } = require('pg');
 const axios = require('axios');
-const { PG_URI } = require('./pg-model');
 
-const apiToken = execSync('echo ${{ secrets.API_KEY }}').toString().trim();
+const dbURI = process.env.PG_URI;
+const apiKey = process.env.API_KEY;
 
 const pool = new Pool({
-  connectionString: PG_URI,
+  connectionString: dbURI,
 });
 
 // INSERT Data
@@ -17,25 +18,27 @@ const insertBirdQuery = `
 `;
 
 const insertBirdgendaQuery = `
-  INSERT INTO birdgendas (speciesCode)
+  INSERT INTO birdgendas (species)
   VALUES ($1)
   ON CONFLICT DO NOTHING
   RETURNING _id
 `;
+
+let client;
 
 (async () => {
   try {
     // Fetch data from the eBird API
     const response = await axios.get('https://api.ebird.org/v2/data/obs/KZ/recent', {
       headers: {
-        'X-eBirdApiToken': apiToken,
+        'X-eBirdApiToken': apiKey,
       },
     });
 
     const birdData = response.data;
 
     // Start a PostgreSQL transaction
-    const client = await pool.connect();
+    client = await pool.connect();
     await client.query('BEGIN');
 
     for (const bird of birdData) {
