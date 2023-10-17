@@ -16,7 +16,7 @@ const initialState = {
 };
 
 const birdsReducer = (state = initialState, action) => {
-  
+    return initialState
 };
 
 export default birdsReducer;

@@ -12,7 +12,7 @@
 import React from 'react';
 // import { useSelector } from 'react-redux';
 // import from child components...
-import birdSearch from '../components/birdSearch';
+import BirdSearch from '../components/birdSearch';
 
 
 
@@ -24,7 +24,7 @@ const MainContainer = () => {
       <div className="outerBox">
         <h1 id="header">Bird Watch</h1>
         { /* Start adding components here... */ }
-        <birdSearch/>
+        <BirdSearch/>
       </div>
     </div>
   );

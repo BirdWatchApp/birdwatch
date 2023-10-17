@@ -11,7 +11,7 @@
 
 import React from 'react';
 // import { ReactDOM } from 'react';
-// import { createRoot } from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import App from './App.jsx';
 import store from './store';
@@ -22,7 +22,7 @@ import store from './store';
 //     <App />
 //   </Provider>,
 // );
-const root = createRoot(document.getElementById('contents'));
+const root = createRoot(document.getElementById('root'));
 root.render(
   // wrap the App in the Provider Component and pass in the store
 

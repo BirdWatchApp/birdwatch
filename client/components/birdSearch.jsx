@@ -11,7 +11,7 @@
 
 import React from "react";
 
-const birdSearch = (props) => {
+const BirdSearch = (props) => {
 
     return (
 
@@ -34,4 +34,4 @@ const birdSearch = (props) => {
     )
 };
 
-export default birdSearch;
+export default BirdSearch;
