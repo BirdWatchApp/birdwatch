@@ -1,9 +1,8 @@
 const { Pool } = require('pg');
 const axios = require('axios');
-const { PG_URI } = require('./pg-model');
-const { execSync } = require('child_process');
 
-// const apiToken = execSync('echo ${{ secrets.API_KEY }}').toString().trim();
+// TODO: Move to .env
+const { PG_URI } = require('./pg-model');
 const apiToken = '8emk7a9ljpc4';
 
 const pool = new Pool({
