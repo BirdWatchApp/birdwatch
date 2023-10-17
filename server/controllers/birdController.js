@@ -35,7 +35,7 @@ birdController.verifyUser = async (req, res, next) => {
 
 
 birdController.getAllBirds = async (req, res, next) => {
-  //
+
   try {
     res.locals.bookReviews = result.rows;
 
