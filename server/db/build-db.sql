@@ -16,7 +16,6 @@ CREATE TABLE IF NOT EXISTS birdgendas (
   birdgenda varchar
 );
 
-
 CREATE TABLE IF NOT EXISTS users (
   _id serial NOT NULL PRIMARY KEY,
   username varchar NOT NULL,
