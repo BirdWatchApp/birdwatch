@@ -10,14 +10,19 @@ const Login = ({ setPageState }) => {
     setPageState("signup");
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const { username, password } = formData;
 
-    fetch('/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    }).then();
+    fetch("/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    }).then((response) => {
+      console.log(response)
+      if (response.status === 200) {
+        setPageState("main");
+      }
+    });
   };
 
   const handleInputChange = (e) => {
@@ -26,6 +31,7 @@ const Login = ({ setPageState }) => {
       ...formData,
       [name]: value,
     });
+    console.log(formData)
   };
 
   return (
@@ -50,7 +56,9 @@ const Login = ({ setPageState }) => {
         ></input>
         <input className="button" type="submit" value="Login"></input>
       </form>
-      <button onClick={handlePageSwitch}>Don't have an account? Sign up!</button>
+      <button onClick={handlePageSwitch}>
+        Don't have an account? Sign up!
+      </button>
     </div>
   );
 };
