@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; 
 
 
 
@@ -13,7 +12,6 @@ const SignUp = () => {
                 <input name="password" type="password" placeholder="Create Password" required /> <br/>
                 <input className="button" type="submit" value="Create Account"></input>
             </form> 
-            <Link id='profileLink' className="links" to="/profile"><strong>PROFILE</strong></Link>
         </div>
         
     )
