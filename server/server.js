@@ -1,4 +1,3 @@
-// Requires
 require('dotenv').config();
 const express = require('express');
 const app = express();
@@ -13,12 +12,12 @@ app.use(cookieParser());
 // Cookies
 const cookieController = require('./controllers/cookieController');
 
-// Import routes
+// Import Routes
 const userRouter = require('./routers/userRouter');
 const birdRouter = require('./routers/birdRouter');
 const birdgendaRouter = require('./routers/birdgendaRouter');
 
-// Static files
+// Static Files
 app.use('/styles.css', express.static(path.resolve(__dirname, '..', 'dist', 'client/styles/styles.css')));
 
 //Home Page
@@ -31,7 +30,13 @@ app.use('/birds', birdRouter);
 app.use('/birdgenda', birdgendaRouter);
 app.use('/user', userRouter);
 
-// Default error handler
+// Unknown Routes
+app.use((req, res) => {
+  // eslint-disable-next-line quotes
+  return res.status(404).send("I wouldn't go down that road...");
+});
+
+// Default Error Handler
 app.use((err, req, res, next) => {
   const defaultError = {
     log: 'Express error handler caught unknown middleware error',
@@ -43,7 +48,7 @@ app.use((err, req, res, next) => {
   res.status(errorObj.status).send(errorObj.message);
 });
 
-// Server started
+// Server Started
 app.listen(process.env.PORT, () => {
   console.log('Server started on port 3000');
 });
