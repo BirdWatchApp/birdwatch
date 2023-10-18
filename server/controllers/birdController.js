@@ -33,6 +33,7 @@ const sqlActions = require("../db/sqlActions");
 birdController.getBirds = async (req, res, next) => {
 
   try {
+    console.log(req.body)
     res.locals.birds = await sqlActions.getBirds(req.body);
     next();
   } catch (err) {
