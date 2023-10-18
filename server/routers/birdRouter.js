@@ -10,7 +10,7 @@ router.get(
     return res.status(200).json(res.locals.allBirds);
   },
 );
-router.get('/getBird', birdController.getBirds, (req, res) =>{
+router.post('/getBird', birdController.getBirds, (req, res) =>{
   return res.status(200).json(res.locals.birds)
 })
 

@@ -11,13 +11,15 @@
 
 import React from "react";
 import { useState } from "react";
+import ResultsDashboard from "./resultsDashboard";
 
 
 const BirdSearch = (props) => {
+
     const [text, setText] = useState('');
+    const [showBirdSearch, setShowBirdSearch] = useState(true);
 
     const textboxInput = (e) => {
-        console.log(e);
         setText(e.target.value);
     };
 
@@ -28,30 +30,20 @@ const BirdSearch = (props) => {
         const dropdownValue = document.getElementById('dropdown').value;
         // const inputValue = e.target.querySelector('input').value;
         try {
-            console.log("Dropdown Value:", dropdownValue);
+            setShowBirdSearch(false);
+            console.log(dropdownValue);
             console.log(text);
-            // console.log("Input Value:", inputValue);
-            // sends the data to the backend
-            // const requestParams = JSON({
-            //     dropdownValue: text,
-            // });
-            // console.log('This is request params', requestParams);
-
-            const response = await fetch("/birds", {
-                method: "GET",
-                params: { dropdownValue: text },
+            const response = await fetch("/birds/getBird", {
+                method: "POST",
+                body: JSON.stringify({[dropdownValue]: text}),
                 headers: {
                     "Content-type": "application/json",
                 }
-                // body: JSON.stringify({
-                //     title: title,
-                //     post: post
-                // })
             });
             // await the response
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
+                console.log('data', data);
             }
         }
         catch (err) {
@@ -66,9 +58,8 @@ const BirdSearch = (props) => {
                 <h2>Search For Birds</h2>
                 <form onSubmit={handleSubmit}>
                     <select type="dropdown" id="dropdown" >
-                        <option value="Location">Location</option>
-                        <option value="Scientific Name">Scientific Name</option>
-                        <option value="Common Name">Common Name</option>
+                        <option value="locname">Location</option>
+                        <option value="comname">Common Name</option>
                     </select> 
                     <input type="text" placeholder="Search By" 
                     onChange={e => textboxInput(e)} required/>
@@ -76,6 +67,12 @@ const BirdSearch = (props) => {
                     >Search</button>
                 </form>
             </div>
+            {showBirdSearch ? (
+                <BirdSearch /> 
+            ) : (
+                <ResultsDashboard props={data}/>
+            )
+        }
         </div>
 
     )
