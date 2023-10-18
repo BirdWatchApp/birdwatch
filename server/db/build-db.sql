@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS birds (
-  _id serial NOT NULL,
-  speciesCode varchar NOT NULL PRIMARY KEY,
+  _id serial NOT NULL PRIMARY KEY,
+  speciesCode varchar,
   comName varchar,
   locName varchar,
   obsDt timestamp,
@@ -16,9 +16,9 @@ CREATE TABLE IF NOT EXISTS birdgendas (
   birdgenda varchar
 );
 
-
 CREATE TABLE IF NOT EXISTS users (
   _id serial NOT NULL PRIMARY KEY,
-  username varchar NOT NULL,
+  username varchar NOT NULL UNIQUE,
   password varchar NOT NULL
 );
+

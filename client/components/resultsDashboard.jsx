@@ -15,8 +15,12 @@ import Posts from './posts';
 
 const ResultsDashboard = (props) => {
 
+    const { data } = props;
 
-    for (let i = 0; i < )
+    console.log('data in results dashboard', data);
+
+    // const posts = [];
+    // for (let i = 0; i < data.length; i++)
 
 
     return (

@@ -35,9 +35,6 @@ userController.verifyUser = async (req, res, next) => {
     const user = await pool.query(text, value);
 
     if (!user.rows[0]._id) {
-      //   throw new Error(
-      //     `userController.verifyUser Error: No combination for User: ${username} and Password: ${password}`,
-      //   );
       res.redirect('/signup');
     }
     const comparison = await bcrypt.compare(password, user.rows[0].password);
@@ -69,7 +66,7 @@ userController.verifyUser = async (req, res, next) => {
  */
 userController.createUser = async (req, res, next) => {
   try {
-    // Destructure user properties from body
+    // Destructure user properties from the request body
     const { username, password } = req.body;
 
     if (!username || !password) {
@@ -79,28 +76,42 @@ userController.createUser = async (req, res, next) => {
         message: { error: 'An error occurred' },
       });
     } else {
-      const encryptedPassword = await bcrypt.hash(password, SALT_WORK_FACTOR);
-      const text = `
+      const checkUserQuery = `
+        SELECT *
+        FROM users
+        WHERE username = $1;
+      `;
+      const checkUserValues = [username];
+      const user = await pool.query(checkUserQuery, checkUserValues);
+
+      if (user.rows.length === 0) {
+        const encryptedPassword = await bcrypt.hash(password, SALT_WORK_FACTOR);
+        const createUserQuery = `
         INSERT INTO users (username, password)
         VALUES ($1, $2)
         RETURNING _id;
         `;
-      const values = [username, encryptedPassword];
-      const result = await pool.query(text, values);
-      res.locals.user = result.rows[0]._id;
-      return next();
+        const createUserValues = [username, encryptedPassword];
+        const result = await pool.query(createUserQuery, createUserValues);
+        res.locals.user = result.rows[0]._id;
+        return next();
+      } else {
+        return next({
+          log: 'Username already exists',
+          status: 409,
+          message: { error: 'Username already exists' },
+        });
+      }
     }
   } catch (err) {
     const errObj = {
       log: 'userController.createUser Error',
       message: { error: 'An error occurred' },
-      status: 404,
+      status: 500,
     };
     return next({ ...errObj, log: err.message });
   }
 };
-
-// do we need to check password again before updating?
 
 /**
  * updateUser - updates username and hashed password in the users database.
@@ -123,8 +134,8 @@ userController.updateUser = async (req, res, next) => {
     SET
       username = $1,
       password = $2
-    WHERE _id = $3
-    RETURNING _id;
+      WHERE _id = $3
+      RETURNING _id;
   `;
     const encryptedPassword = await bcrypt.hash(password, SALT_WORK_FACTOR);
     const values = [username, encryptedPassword, userId];
@@ -153,13 +164,39 @@ userController.updateUser = async (req, res, next) => {
 userController.deleteUser = async (req, res, next) => {
   try {
     const { userId } = req.params;
-    const text = `
-    DELETE FROM users
-    WHERE _id = $1;
-  `;
-    const value = [userId];
-    const user = await pool.query(text, value);
-    return next();
+
+    // First, delete related sessions
+    const deleteSessionsQuery = `
+      DELETE FROM sessions
+      WHERE user_id = $1;
+    `;
+    const sessionsDeleteResult = await pool.query(deleteSessionsQuery, [userId]);
+
+    // Check if any sessions were deleted
+    if (sessionsDeleteResult.rowCount > 0) {
+      // If sessions were deleted, now you can safely delete the user
+      const deleteUserQuery = `
+        DELETE FROM users
+        WHERE _id = $1;
+      `;
+      const userDeleteResult = await pool.query(deleteUserQuery, [userId]);
+
+      if (userDeleteResult.rowCount > 0) {
+        return next();
+      } else {
+        return next({
+          log: 'User not found or could not be deleted.',
+          status: 404,
+          message: { error: 'An error occurred' },
+        });
+      }
+    } else {
+      return next({
+        log: 'No sessions found for the user.',
+        status: 404,
+        message: { error: 'An error occurred' },
+      });
+    }
   } catch (err) {
     const errObj = {
       log: 'userController.deleteUser Error',
