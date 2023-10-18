@@ -70,17 +70,16 @@ sqlActions.addBirdgenda = async (params) => {
 }
 
 sqlActions.editBirdgenda = async (params) => {
-    const {id, content} = params;
-    const query = `UPDATE birdgendas SET birdgenda = $1 WHERE _id = $2`;
-    const result = await pool.query(query, [content, id]);
-    console.log(result)
+    const {_id, content} = params;
+    const query = `UPDATE birdgendas SET birdgenda = $1 WHERE _id = $2 RETURNING *`;
+    const result = await pool.query(query, [content, _id]);
     return result.rows[0];
 }
 
 sqlActions.deleteBirdgenda = async (params) => {
-    const {id} = params;
-    const query = `DELETE FROM birdgenda WHERE id = $1 RETURNING *`;
-    const result = await pool.query(query, [id])
+    const {_id} = params;
+    const query = `DELETE FROM birdgendas WHERE _id = $1 RETURNING *`;
+    const result = await pool.query(query, [_id])
     return result.rows[0];
 }
 module.exports = sqlActions;
