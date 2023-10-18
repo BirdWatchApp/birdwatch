@@ -10,21 +10,28 @@
  */
 
 import React from 'react';
-import { render } from 'react-dom';
 import './styles/styles.css';
 import Login from './components/login.jsx';
 import SignUp from './components/signup.jsx';
 import BirdSearch from './components/birdSearch.jsx';
 import Posts from './components/posts.jsx';
-import ResultsDashboard from './components/resultsDashboard';
+
 
 const App = () => {
+
+  const [pageState, setPageState] = React.useState('login');
+
   return(
         <div>
-          <h1 id='header'>BirdWatch</h1>
+          {pageState === 'login' && <Login setPageState={setPageState}/>}
+          {pageState === 'signup' && <SignUp setPageState={setPageState}/>}
+          {pageState === 'main' &&           
+          <div>
+          <h1>BirdWatch</h1>
           <BirdSearch/>
           <ResultsDashboard/>
           <Posts />
+          </div>}
         </div>
   );
 }

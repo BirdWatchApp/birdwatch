@@ -13,6 +13,7 @@ const router = express.Router();
  *
  * @returns response status 200
  */
+//
 router.post('/login', userController.verifyUser, cookieController.setSSIDCookie, sessionController.startSession, (req, res) => {
   return res.status(200).json(res.locals.user);
 });
@@ -47,7 +48,8 @@ router.put('/update/:userId', userController.updateUser, (req, res) => {
  * @returns successful deletion status
  */
 router.delete('/delete/:userId', userController.deleteUser, (req, res) => {
-  return res.status(204).redirect('/');
+    // TODO: Double check if this will redirect as expected once we have the FE set up
+  return res.status(204).redirect('/signup');
 });
 
 module.exports = router;
