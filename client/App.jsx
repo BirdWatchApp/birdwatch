@@ -29,6 +29,7 @@ const App = () => {
           <div>
           <h1>BirdWatch</h1>
           <BirdSearch/>
+          <ResultsDashboard/>
           <Posts />
           </div>}
         </div>
