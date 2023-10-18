@@ -15,6 +15,7 @@ const userController = {};
 userController.verifyUser = async (req, res, next) => {
   try {
     // Deconstruct user
+    console.log('Im here')
     const { username, password } = req.body;
 
     if (!username || !password)
@@ -35,12 +36,12 @@ userController.verifyUser = async (req, res, next) => {
     const user = await pool.query(text, value);
 
     if (!user.rows[0]._id) {
-      res.redirect('/signup');
+      console.log('no user found')
     }
     const comparison = await bcrypt.compare(password, user.rows[0].password);
 
     if (!comparison) {
-      res.redirect('/signup');
+      console.log('wrong password')
     } else {
       res.locals.user = user.rows[0]._id;
       // If we have a row we can move on to the next verification

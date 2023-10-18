@@ -13,6 +13,7 @@ const router = express.Router();
  *
  * @returns response status 200
  */
+//
 router.post('/login', userController.verifyUser, cookieController.setSSIDCookie, sessionController.startSession, (req, res) => {
   return res.status(200).json(res.locals.user);
 });

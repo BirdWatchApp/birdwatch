@@ -10,19 +10,23 @@ const Login = ({ setPageState }) => {
     setPageState("signup");
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async e => {
+    e.preventDefault(); // Prevent the default form submission (which is a GET request).
+
     const { username, password } = formData;
 
-    fetch("/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    }).then((response) => {
-      console.log(response)
-      if (response.status === 200) {
-        setPageState("main");
+    try{
+      const response = await fetch('/user/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      })
+      if (response.ok){
+        setPageState('main')
       }
-    });
+    } catch{
+      console.log('not working')
+    } 
   };
 
   const handleInputChange = (e) => {
