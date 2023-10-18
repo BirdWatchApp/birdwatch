@@ -1,6 +1,14 @@
+body {
+    background-color:  rgb(245, 241, 241);
+    display: flex;
+    justify-content: center;
+}
 .search{
     text-align: center;
-    background-color: red;
+    width: 450px;
+    margin-top: 100px;
+    border: 1px solid black;
+    padding: 30px;
 }
 #header {  
   text-align: center;
@@ -21,4 +29,8 @@
     align-items: center;
     justify-content: center;
     margin-top: 50px;
+}
+.results_dash {
+    display: flex;
+    justify-content: center;
 }

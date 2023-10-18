@@ -12,12 +12,13 @@
 import React from "react";
 import { useState } from "react";
 import ResultsDashboard from "./resultsDashboard";
+import Posts from "./posts";
 
 
 const BirdSearch = (props) => {
 
     const [text, setText] = useState('');
-    const [showBirdSearch, setShowBirdSearch] = useState(true);
+    // const [showBirdSearch, setShowBirdSearch] = useState(true);
 
     const textboxInput = (e) => {
         setText(e.target.value);
@@ -30,7 +31,7 @@ const BirdSearch = (props) => {
         const dropdownValue = document.getElementById('dropdown').value;
         // const inputValue = e.target.querySelector('input').value;
         try {
-            setShowBirdSearch(false);
+            // setShowBirdSearch(false);
             console.log(dropdownValue);
             console.log(text);
             const response = await fetch("/birds/getBird", {
@@ -43,13 +44,22 @@ const BirdSearch = (props) => {
             // await the response
             if (response.ok) {
                 const data = await response.json();
-                console.log('data', data);
+                console.log('data in bird search', data); 
+                    
+                return (
+                    <ResultsDashboard props={data}/>
+                    )
+                    
+                    // const posts = [];
+                    // for (let i = 0; i < data.length; i++) {
+                    //     posts.push(<Posts props={data} />);
+                    // }
+                
             }
         }
         catch (err) {
             console.log(err);
         }
-
     };
 
     return (
@@ -67,12 +77,6 @@ const BirdSearch = (props) => {
                     >Search</button>
                 </form>
             </div>
-            {showBirdSearch ? (
-                <BirdSearch /> 
-            ) : (
-                <ResultsDashboard props={data}/>
-            )
-        }
         </div>
 
     )

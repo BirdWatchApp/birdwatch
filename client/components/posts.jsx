@@ -14,6 +14,10 @@ import { useState, useEffect } from 'react';
 
 const Posts = (props) => {
 
+    const { data } = props;
+
+    console.log(data);
+
     return (
         <div className='post'>
             <img src='https://i.ytimg.com/vi/ccByAVGIoCY/mqdefault.jpg'></img>

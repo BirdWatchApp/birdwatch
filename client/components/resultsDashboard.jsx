@@ -24,8 +24,8 @@ const ResultsDashboard = (props) => {
 
 
     return (
-        <div>
-            {posts}   
+        <div id="results_dash">
+            <h1 id='header'>Results Dashboard</h1>
         </div>
     )
 };
