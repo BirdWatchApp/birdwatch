@@ -5,24 +5,28 @@ const SignUp = ({ setPageState }) => {
     setPageState("login");
   };
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const formDataObject = Object.fromEntries(formData.entries());
-
-    fetch("/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: formDataObject.username,
-        password: formDataObject.password,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.log(error));
+    console.log(formDataObject)
+    try {
+      const response = await fetch("/user/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: formDataObject.username,
+          password: formDataObject.password,
+        }),
+      });
+      if (response.ok) {
+        setPageState("login");
+      }
+    } catch {
+      console.log("not working");
+    }
   };
 
   return (
