@@ -19,7 +19,7 @@ module.exports = {
     },
     proxy: { 
     '/birds': {target: 'http://localhost:3000/', secure: false },
-    '/login': {target: 'http://localhost:3000/', secure: false },
+    '/user': {target: 'http://localhost:3000/', secure: false },
      '/birdgenda': {target: 'http://localhost:3000/', secure: false },
     }
   },

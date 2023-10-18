@@ -10,14 +10,23 @@ const Login = ({ setPageState }) => {
     setPageState("signup");
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async e => {
+    e.preventDefault(); // Prevent the default form submission (which is a GET request).
+
     const { username, password } = formData;
 
-    fetch('/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    }).then();
+    try{
+      const response = await fetch('/user/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      })
+      if (response.ok){
+        setPageState('main')
+      }
+    } catch{
+      console.log('not working')
+    } 
   };
 
   const handleInputChange = (e) => {
@@ -26,6 +35,7 @@ const Login = ({ setPageState }) => {
       ...formData,
       [name]: value,
     });
+    console.log(formData)
   };
 
   return (
@@ -50,7 +60,9 @@ const Login = ({ setPageState }) => {
         ></input>
         <input className="button" type="submit" value="Login"></input>
       </form>
-      <button onClick={handlePageSwitch}>Don't have an account? Sign up!</button>
+      <button onClick={handlePageSwitch}>
+        Don't have an account? Sign up!
+      </button>
     </div>
   );
 };
