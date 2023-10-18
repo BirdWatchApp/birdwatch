@@ -47,7 +47,8 @@ router.put('/update/:userId', userController.updateUser, (req, res) => {
  * @returns successful deletion status
  */
 router.delete('/delete/:userId', userController.deleteUser, (req, res) => {
-  return res.status(204).redirect('/');
+    // TODO: Double check if this will redirect as expected once we have the FE set up
+  return res.status(204).redirect('/signup');
 });
 
 module.exports = router;
